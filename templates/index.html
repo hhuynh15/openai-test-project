@@ -1,21 +1,61 @@
 <!DOCTYPE html>
+<html>
 <head>
-  <title>OpenAI Quickstart</title>
-  <link
-    rel="shortcut icon"
-    href="{{ url_for('static', filename='dog.png') }}"
-  />
-  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+    <title>OpenAI Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .chatbox {
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: 500px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"] {
+            margin-bottom: 20px;
+            width: 80%;
+        }
+        input[type="submit"] {
+            width: 80%;
+        }
+        .user {
+            text-align: right;
+            color: blue;
+        }
+        .bot {
+            text-align: left;
+            color: green;
+        }
+    </style>
 </head>
-
 <body>
-  <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
-  <h3>Name my pet</h3>
-  <form action="/" method="post">
-    <input type="text" name="animal" placeholder="Enter an animal" required />
-    <input type="submit" value="Generate names" />
-  </form>
-  {% if result %}
-  <div class="result">{{ result }}</div>
-  {% endif %}
+    <h1>OpenAI Chatbot</h1>
+    <div class="chatbox" id="chatbox">
+        {% for message in chat %}
+        <div class="{{ message.role }}">
+            <strong>{{ message.role.capitalize() }}:</strong> {{ message.content }}
+        </div>
+        {% endfor %}
+    </div>
+    <form action="/" method="post">
+        <input type="text" name="message" placeholder="Type your message..." required />
+        <input type="submit" value="Send" />
+    </form>
+    <script>
+        var chatbox = document.getElementById('chatbox');
+        chatbox.scrollTop = chatbox.scrollHeight;
+    </script>
 </body>
+</html>
